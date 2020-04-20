@@ -21,10 +21,34 @@ async function sendRequest(endpoint, method, data){
     if (data) request_options.body = JSON.stringify(data);
 
     const response = await fetch(`${BASE_URL}/${endpoint}`, request_options).catch((err) => { console.error(err) });
-    if (await response.ok) return await response.json();
-    else {
-        throw new Error(`HTTP error! status: ${await response.status}`);
+    const contentType = await response.headers.get("content-type");
+    return {
+        status: await response.status,
+        data: (contentType && contentType.indexOf("application/json") !== -1) ? await response.json() : await response.text()
     }
 }
 
-// sendRequest('/api/v1.0/').then(res => console.log(res));
+async function createDataset(parent, options){
+    return await sendRequest(`/api/v1.0/storage/dataset/${parent}/`, 'post', options);
+}
+
+async function deleteDataset(id){
+    return await sendRequest(`/api/v1.0/storage/dataset/${id}`, 'delete');
+}
+
+async function updateDataset(id, new_options){
+    return await sendRequest(`/api/v2.0/pool/dataset/id/${id}`, 'put', new_options);
+}
+
+async function createAfpShare(options){
+    return await sendRequest(`/api/v1.0/sharing/afp/`, 'post', options)
+}
+
+async function createSmbShare(options){
+    return await sendRequest(`/api/v1.0/sharing/cifs/`, 'post', options)
+}
+
+async function createNfsShare(options){
+    return await sendRequest(`/api/v1.0/sharing/nfs/`, 'post', options)
+}
+
