@@ -63,3 +63,15 @@ async function deleteSmbShare(id){
 async function deleteNfsShare(id){
     return await sendRequest(`/api/v1.0/sharing/nfs/${id}/`, 'delete');
 }
+
+async function updateAfpShare(id, options){
+    return await sendRequest(`/api/v1.0/sharing/afp/${id}/`, 'put', options)
+}
+
+async function updateNfsShare(id, options){
+    return await sendRequest(`/api/v1.0/sharing/nfs/${id}/`, 'put', options)
+}
+
+async function updateSmbShare(id, options){
+    return await sendRequest(`/api/v1.0/sharing/cifs/${id}/`, 'put', options)
+}
