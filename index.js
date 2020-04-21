@@ -52,3 +52,14 @@ async function createNfsShare(options){
     return await sendRequest(`/api/v1.0/sharing/nfs/`, 'post', options)
 }
 
+async function deleteAfpShare(id){
+    return await sendRequest(`/api/v1.0/sharing/afp/${id}/`, 'delete');
+}
+
+async function deleteSmbShare(id){
+    return await sendRequest(`/api/v1.0/sharing/cifs/${id}/`, 'delete');
+}
+
+async function deleteNfsShare(id){
+    return await sendRequest(`/api/v1.0/sharing/nfs/${id}/`, 'delete');
+}
